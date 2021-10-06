@@ -1,4 +1,3 @@
-//
 // Copyright 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
-
 package {
     // See: http://go/android-license-faq
     // A large-scale-change added 'default_applicable_licenses' to import
@@ -24,21 +21,29 @@ package {
 }
 
 filegroup {
-    name: "stable-media-aidl-srcs",
-    srcs: ["stable/**/*.aidl"],
-    path: "stable",
-}
-
-filegroup {
-    name: "private-media-aidl-srcs",
-    srcs: ["private/**/I*.aidl"],
-    path: "private",
-}
-
-filegroup {
-    name: "media-aidl-srcs",
+    name: "service-media-s-sources",
     srcs: [
-        ":private-media-aidl-srcs",
-        ":stable-media-aidl-srcs",
+        "java/**/*.java",
+    ],
+    path: "java",
+    visibility: ["//visibility:private"],
+}
+
+java_sdk_library {
+    name: "service-media-s",
+    permitted_packages: [
+        "com.android.server.media",
+    ],
+    defaults: ["framework-system-server-module-defaults"],
+    srcs: [
+        ":service-media-s-sources",
+    ],
+    libs: [
+        "updatable-media",
+    ],
+    sdk_version: "system_server_current",
+    min_sdk_version: "29", // TODO: We may need to bump this at some point.
+    apex_available: [
+        "com.android.media",
     ],
 }
