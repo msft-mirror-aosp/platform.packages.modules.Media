@@ -107,7 +107,11 @@ abstract class BaseMediaParceledListSlice<T> implements Parcelable {
             }
             while (i < N && reply.readInt() != 0) {
                 final T parcelable = readCreator(creator, reply, loader);
-                verifySameType(listElementClass, parcelable.getClass());
+                if (listElementClass == null) {
+                    listElementClass = parcelable.getClass();
+                } else {
+                    verifySameType(listElementClass, parcelable.getClass());
+                }
 
                 mList.add(parcelable);
 
