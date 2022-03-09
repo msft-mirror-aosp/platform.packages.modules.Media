@@ -34,6 +34,8 @@ import android.os.ServiceSpecificException;
 import android.system.Os;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.modules.annotation.MinSdk;
@@ -86,6 +88,7 @@ import java.util.concurrent.Executors;
  @hide
  */
 @MinSdk(Build.VERSION_CODES.S)
+@RequiresApi(Build.VERSION_CODES.S)
 @SystemApi
 public final class MediaTranscodingManager {
     private static final String TAG = "MediaTranscodingManager";
