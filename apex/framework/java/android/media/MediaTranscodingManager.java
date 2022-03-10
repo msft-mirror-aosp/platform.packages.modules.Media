@@ -1395,12 +1395,20 @@ public final class MediaTranscodingManager {
          */
         public void setOnProgressUpdateListener(
                 @NonNull @CallbackExecutor Executor executor,
-                @Nullable OnProgressUpdateListener listener) {
+                @NonNull OnProgressUpdateListener listener) {
             synchronized (mLock) {
                 Objects.requireNonNull(executor, "listenerExecutor must not be null");
                 Objects.requireNonNull(listener, "listener must not be null");
                 mProgressUpdateExecutor = executor;
                 mProgressUpdateListener = listener;
+            }
+        }
+
+        /** Removes the progress listener if any. */
+        public void clearOnProgressUpdateListener() {
+            synchronized (mLock) {
+                mProgressUpdateExecutor = null;
+                mProgressUpdateListener = null;
             }
         }
 
