@@ -251,9 +251,10 @@ public class MediaCommunicationManager {
     /**
      * Sends a media key event. The receiver will be selected automatically.
      *
-     * @param keyEvent the key event to send
-     * @param asSystemService if {@code true}, the event sent to the session as if it was come from
-     *                        the system service instead of the app process.
+     * @param keyEvent the key event to send, non-media key events will be ignored.
+     * @param asSystemService if {@code true}, the event is sent to the session as if it was come
+     *                        from the system service instead of the app process. It only affects
+     *                        {@link MediaSession.Callback#getCurrentControllerInfo()}.
      * @hide
      */
     @SystemApi(client = SystemApi.Client.MODULE_LIBRARIES)
