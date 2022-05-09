@@ -36,7 +36,7 @@ java_sdk_library {
     ],
     libs: [
         "androidx.annotation_annotation",
-        "updatable-media",
+        "framework-media.impl",
         "modules-annotation-minsdk",
         "modules-utils-build",
     ],
