@@ -51,6 +51,11 @@ java_library {
         // This MUST not be used for compilation within the media module, use
         // framework-media.impl instead.
         "//frameworks/av/apex:__subpackages__",
+
+        // DO NOT REMOVE: Legacy visibility, needed for snapshots that are
+        // generated for the S build.
+        "//frameworks/base",
+        "//frameworks/base/apex/media/service",
     ],
 }
 
