@@ -43,7 +43,7 @@ import java.util.List;
  */
 abstract class BaseMediaParceledListSlice<T> implements Parcelable {
     private static String TAG = "BaseMediaParceledListSlice";
-    private static boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
     /*
      * TODO get this number from somewhere else. For now set it to a quarter of
@@ -107,7 +107,11 @@ abstract class BaseMediaParceledListSlice<T> implements Parcelable {
             }
             while (i < N && reply.readInt() != 0) {
                 final T parcelable = readCreator(creator, reply, loader);
-                verifySameType(listElementClass, parcelable.getClass());
+                if (listElementClass == null) {
+                    listElementClass = parcelable.getClass();
+                } else {
+                    verifySameType(listElementClass, parcelable.getClass());
+                }
 
                 mList.add(parcelable);
 
