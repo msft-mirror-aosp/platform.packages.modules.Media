@@ -170,3 +170,21 @@ cc_library_shared {
     ],
     min_sdk_version: "29",
 }
+
+java_api_contribution {
+    name: "framework-media-public-stubs",
+    api_surface: "public",
+    api_file: "api/current.txt",
+    visibility: [
+        "//build/orchestrator/apis",
+    ],
+}
+
+java_api_contribution {
+    name: "framework-media-module-lib-stubs",
+    api_surface: "module-lib",
+    api_file: "api/module-lib-current.txt",
+    visibility: [
+        "//build/orchestrator/apis",
+    ],
+}
