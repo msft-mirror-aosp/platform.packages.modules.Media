@@ -150,6 +150,9 @@ java_sdk_library {
         strict_updatability_linting: true,
     },
     min_sdk_version: "29",
+    permitted_packages: [
+        "android.media",
+    ],
 }
 
 cc_library_shared {
