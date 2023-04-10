@@ -61,6 +61,7 @@ java_library {
 
 filegroup {
     name: "updatable-media-srcs",
+    defaults: ["framework-sources-module-defaults"],
     srcs: [
         "java/android/media/MediaFrameworkInitializer.java",
         ":media-aidl-srcs",
@@ -69,7 +70,6 @@ filegroup {
         ":mediasession2-java-srcs",
         ":mediatranscoding-srcs",
     ],
-    visibility: ["//frameworks/base"],
 }
 
 filegroup {
@@ -150,6 +150,9 @@ java_sdk_library {
         strict_updatability_linting: true,
     },
     min_sdk_version: "29",
+    permitted_packages: [
+        "android.media",
+    ],
 }
 
 cc_library_shared {
