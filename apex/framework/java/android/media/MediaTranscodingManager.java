@@ -190,16 +190,8 @@ public final class MediaTranscodingManager {
                 return;
             }
 
-            // Updates the session progress.
+            // Update session progress and notify clients.
             session.updateProgress(newProgress);
-
-            // Notifies client the progress update.
-            if (session.mProgressUpdateExecutor != null
-                    && session.mProgressUpdateListener != null) {
-                session.mProgressUpdateExecutor.execute(
-                        () -> session.mProgressUpdateListener.onProgressUpdate(session,
-                                newProgress));
-            }
         }
     }
 
@@ -1663,6 +1655,11 @@ public final class MediaTranscodingManager {
         private void updateProgress(int newProgress) {
             synchronized (mLock) {
                 mProgress = newProgress;
+                if (mProgressUpdateExecutor != null && mProgressUpdateListener != null) {
+                    final OnProgressUpdateListener listener = mProgressUpdateListener;
+                    mProgressUpdateExecutor.execute(
+                            () -> listener.onProgressUpdate(this, newProgress));
+                }
             }
         }
 
