@@ -272,20 +272,15 @@ public class MediaCommunicationService extends SystemService {
         }
     }
 
-    void onSessionDied(Session2Record session) {
+    private void removeSessionRecord(Session2Record session) {
         if (DEBUG) {
-            Log.d(TAG, "Destroying " + session);
-        }
-        if (session.isClosed()) {
-            Log.w(TAG, "Destroying already destroyed session. Ignoring.");
-            return;
+            Log.d(TAG, "Removing " + session);
         }
 
         FullUserRecord user = session.getFullUser();
         if (user != null) {
             user.removeSession(session);
         }
-        session.close();
     }
 
     void onSessionPlaybackStateChanged(Session2Record session, boolean promotePriority) {
@@ -681,10 +676,13 @@ public class MediaCommunicationService extends SystemService {
                 }
                 synchronized (mSession2RecordLock) {
                     mIsConnected = false;
+                    // As per onDisconnected documentation, we do not need to call close() after
+                    // onDisconnected is called.
+                    mIsClosed = true;
                 }
                 MediaCommunicationService service = mServiceRef.get();
                 if (service != null) {
-                    service.onSessionDied(Session2Record.this);
+                    service.removeSessionRecord(Session2Record.this);
                 }
             }
 
