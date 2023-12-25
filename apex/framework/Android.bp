@@ -57,6 +57,9 @@ java_library {
         "//frameworks/base",
         "//frameworks/base/apex/media/service",
     ],
+    lint: {
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 filegroup {
@@ -148,6 +151,7 @@ java_sdk_library {
     ],
     lint: {
         strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
     },
     min_sdk_version: "29",
     permitted_packages: [
