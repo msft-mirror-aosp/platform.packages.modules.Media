@@ -57,6 +57,9 @@ java_library {
         "//frameworks/base",
         "//frameworks/base/apex/media/service",
     ],
+    lint: {
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 filegroup {
@@ -148,6 +151,7 @@ java_sdk_library {
     ],
     lint: {
         strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
     },
     min_sdk_version: "29",
     permitted_packages: [
@@ -177,22 +181,4 @@ cc_library_shared {
         "com.android.media",
     ],
     min_sdk_version: "29",
-}
-
-java_api_contribution {
-    name: "framework-media-public-stubs",
-    api_surface: "public",
-    api_file: "api/current.txt",
-    visibility: [
-        "//build/orchestrator/apis",
-    ],
-}
-
-java_api_contribution {
-    name: "framework-media-module-lib-stubs",
-    api_surface: "module-lib",
-    api_file: "api/module-lib-current.txt",
-    visibility: [
-        "//build/orchestrator/apis",
-    ],
 }
