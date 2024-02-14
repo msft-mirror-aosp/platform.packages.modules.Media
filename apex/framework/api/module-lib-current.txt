@@ -9,6 +9,7 @@ package android.media {
 
   public static interface MediaCommunicationManager.SessionCallback {
     method public default void onSession2TokenCreated(@NonNull android.media.Session2Token);
+    method @FlaggedApi("com.android.media.mainline.flags.enable_pid_to_media_session_2") public default void onSession2TokenCreated(@NonNull android.media.Session2Token, int);
     method public default void onSession2TokensChanged(@NonNull java.util.List<android.media.Session2Token>);
   }
 
