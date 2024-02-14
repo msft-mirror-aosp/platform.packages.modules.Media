@@ -19,6 +19,7 @@ import static android.Manifest.permission.MEDIA_CONTENT_CONTROL;
 import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
 
 import android.annotation.CallbackExecutor;
+import android.annotation.FlaggedApi;
 import android.annotation.IntRange;
 import android.annotation.NonNull;
 import android.annotation.RequiresPermission;
@@ -37,6 +38,7 @@ import android.view.KeyEvent;
 import androidx.annotation.RequiresApi;
 
 import com.android.internal.annotations.GuardedBy;
+import com.android.media.mainline.flags.Flags;
 import com.android.modules.annotation.MinSdk;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -282,10 +284,23 @@ public class MediaCommunicationManager {
     @SystemApi(client = MODULE_LIBRARIES)
     public interface SessionCallback {
         /**
-         * Called when a new {@link MediaSession2 media session2} is created.
+         * Called when {@link #onSession2TokenCreated(Session2Token, int)} is left unimplemented.
+         *
          * @param token the newly created token
          */
+        // TODO (b/324266224): Deprecate this method once other overload is published.
         default void onSession2TokenCreated(@NonNull Session2Token token) {}
+
+        /**
+         * Called when a new {@link MediaSession2} is created.
+         *
+         * @param token the newly created token
+         * @param pid the pid of the process hosting the media session
+         */
+        @FlaggedApi(Flags.FLAG_ENABLE_PID_TO_MEDIA_SESSION_2)
+        default void onSession2TokenCreated(@NonNull Session2Token token, int pid) {
+            onSession2TokenCreated(token);
+        }
 
         /**
          * Called when {@link #getSession2Tokens() session tokens} are changed.
@@ -321,9 +336,15 @@ public class MediaCommunicationManager {
 
     class MediaCommunicationServiceCallbackStub extends IMediaCommunicationServiceCallback.Stub {
         @Override
-        public void onSession2Created(Session2Token token) throws RemoteException {
+        public void onSession2Created(Session2Token token, int pid) throws RemoteException {
             for (SessionCallbackRecord record : mTokenCallbackRecords) {
-                record.executor.execute(() -> record.callback.onSession2TokenCreated(token));
+                record.executor.execute(() -> {
+                    if (Flags.enablePidToMediaSession2()) {
+                        record.callback.onSession2TokenCreated(token, pid);
+                    } else {
+                        record.callback.onSession2TokenCreated(token);
+                    }
+                });
             }
         }
 
