@@ -6,6 +6,7 @@ package: "com.android.media.mainline.flags"
 
 flag {
     name: "enable_pid_to_media_session_2"
+    is_exported: true
     namespace: "media_solutions"
     description: "Add pid for Session2Token for Supporting project falcon in MediaSession2"
     bug: "318745416"
