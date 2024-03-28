@@ -1,4 +1,5 @@
 package: "com.android.media.mainline.flags"
+container: "com.android.media"
 
 #
 # All flags targeting V have to be is_fixed_read_only true.

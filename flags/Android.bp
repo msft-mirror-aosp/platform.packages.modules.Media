@@ -21,6 +21,7 @@ package {
 aconfig_declarations {
     name: "media_mainline_aconfig_flags",
     package: "com.android.media.mainline.flags",
+    container: "com.android.media",
     srcs: [
         "**/*.aconfig",
     ],
