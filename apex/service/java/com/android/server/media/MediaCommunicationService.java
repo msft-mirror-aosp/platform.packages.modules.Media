@@ -16,15 +16,18 @@
 package com.android.server.media;
 
 import static android.Manifest.permission.INTERACT_ACROSS_USERS_FULL;
+import static android.Manifest.permission.MEDIA_CONTENT_CONTROL;
 import static android.os.UserHandle.ALL;
 import static android.os.UserHandle.getUserHandleForUid;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
+import android.annotation.RequiresPermission;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.PackageInfoFlags;
 import android.media.IMediaCommunicationService;
 import android.media.IMediaCommunicationServiceCallback;
 import android.media.MediaController2;
@@ -271,20 +274,15 @@ public class MediaCommunicationService extends SystemService {
         }
     }
 
-    void onSessionDied(Session2Record session) {
+    private void removeSessionRecord(Session2Record session) {
         if (DEBUG) {
-            Log.d(TAG, "Destroying " + session);
-        }
-        if (session.isClosed()) {
-            Log.w(TAG, "Destroying already destroyed session. Ignoring.");
-            return;
+            Log.d(TAG, "Removing " + session);
         }
 
         FullUserRecord user = session.getFullUser();
         if (user != null) {
             user.removeSession(session);
         }
-        session.close();
     }
 
     void onSessionPlaybackStateChanged(Session2Record session, boolean promotePriority) {
@@ -358,7 +356,11 @@ public class MediaCommunicationService extends SystemService {
         public boolean isTrusted(String controllerPackageName, int controllerPid,
                 int controllerUid) {
             final int uid = Binder.getCallingUid();
-            final int userId = UserHandle.getUserHandleForUid(uid).getIdentifier();
+            final UserHandle callingUser = UserHandle.getUserHandleForUid(uid);
+            if (controllerUid < 0
+                    || getPackageUidForUser(controllerPackageName, callingUser) != controllerUid) {
+                return false;
+            }
             final long token = Binder.clearCallingIdentity();
             try {
                 // Don't perform check between controllerPackageName and controllerUid.
@@ -371,7 +373,7 @@ public class MediaCommunicationService extends SystemService {
                 // but it doesn't tell which package has created the MediaController, so useless.
                 return hasMediaControlPermission(controllerPid, controllerUid)
                         || hasEnabledNotificationListener(
-                        userId, controllerPackageName, controllerUid);
+                                callingUser.getIdentifier(), controllerPackageName, controllerUid);
             } finally {
                 Binder.restoreCallingIdentity(token);
             }
@@ -418,16 +420,23 @@ public class MediaCommunicationService extends SystemService {
         }
 
         @Override
-        public void registerCallback(IMediaCommunicationServiceCallback callback,
-                String packageName) throws RemoteException {
+        @RequiresPermission(MEDIA_CONTENT_CONTROL)
+        public void registerCallback(@NonNull IMediaCommunicationServiceCallback callback,
+                                     @NonNull String packageName) throws RemoteException {
             Objects.requireNonNull(callback, "callback should not be null");
             Objects.requireNonNull(packageName, "packageName should not be null");
 
+            final int uid = Binder.getCallingUid();
+            final int pid = Binder.getCallingPid();
+            if (!hasMediaControlPermission(pid, uid)){
+                throw new SecurityException("MEDIA_CONTENT_CONTROL permission is required to"
+                        + " register MediaCommunicationServiceCallback");
+            }
+
             synchronized (mLock) {
                 if (findCallbackRecordLocked(callback) == null) {
-
                     CallbackRecord record = new CallbackRecord(callback, packageName,
-                            Binder.getCallingUid(), Binder.getCallingPid());
+                            uid, pid);
                     mCallbackRecords.add(record);
                     try {
                         callback.asBinder().linkToDeath(record, 0);
@@ -499,6 +508,22 @@ public class MediaCommunicationService extends SystemService {
             throw new SecurityException("Permission denied while calling from " + packageName
                     + " with user id: " + userId + "; Need to run as either the calling user id ("
                     + callingUserId + "), or with " + INTERACT_ACROSS_USERS_FULL + " permission");
+        }
+
+        /**
+         * Return the UID associated with the given package name and user, or -1 if no such package
+         * is available to the caller.
+         */
+        private int getPackageUidForUser(@NonNull String packageName, @NonNull UserHandle user) {
+            final PackageManager packageManager = mContext.getUser().equals(user)
+                    ? mContext.getPackageManager()
+                    : mContext.createContextAsUser(user, 0 /* flags */).getPackageManager();
+            try {
+                return packageManager.getPackageUid(packageName, 0 /* flags */);
+            } catch (PackageManager.NameNotFoundException e) {
+                // package is not available to the caller
+            }
+            return -1;
         }
     }
 
@@ -660,10 +685,13 @@ public class MediaCommunicationService extends SystemService {
                 }
                 synchronized (mSession2RecordLock) {
                     mIsConnected = false;
+                    // As per onDisconnected documentation, we do not need to call close() after
+                    // onDisconnected is called.
+                    mIsClosed = true;
                 }
                 MediaCommunicationService service = mServiceRef.get();
                 if (service != null) {
-                    service.onSessionDied(Session2Record.this);
+                    service.removeSessionRecord(Session2Record.this);
                 }
             }
 
