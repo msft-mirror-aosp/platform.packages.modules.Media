@@ -153,6 +153,9 @@ java_sdk_library {
     permitted_packages: [
         "android.media",
     ],
+    static_libs: [
+        "media_mainline_flags_java_lib",
+    ]
 }
 
 cc_library_shared {
@@ -177,22 +180,4 @@ cc_library_shared {
         "com.android.media",
     ],
     min_sdk_version: "29",
-}
-
-java_api_contribution {
-    name: "framework-media-public-stubs",
-    api_surface: "public",
-    api_file: "api/current.txt",
-    visibility: [
-        "//build/orchestrator/apis",
-    ],
-}
-
-java_api_contribution {
-    name: "framework-media-module-lib-stubs",
-    api_surface: "module-lib",
-    api_file: "api/module-lib-current.txt",
-    visibility: [
-        "//build/orchestrator/apis",
-    ],
 }

@@ -33,7 +33,7 @@ java_sdk_library {
     defaults: [
         "framework-system-server-module-defaults",
         "framework-system-server-module-optimize-defaults",
-        ],
+    ],
     srcs: [
         ":service-media-s-sources",
     ],
@@ -48,6 +48,7 @@ java_sdk_library {
     min_sdk_version: "29", // TODO: We may need to bump this at some point.
     lint: {
         strict_updatability_linting: true,
+
     },
     apex_available: [
         "com.android.media",

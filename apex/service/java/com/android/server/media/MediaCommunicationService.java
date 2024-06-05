@@ -16,16 +16,17 @@
 package com.android.server.media;
 
 import static android.Manifest.permission.INTERACT_ACROSS_USERS_FULL;
+import static android.Manifest.permission.MEDIA_CONTENT_CONTROL;
 import static android.os.UserHandle.ALL;
 import static android.os.UserHandle.getUserHandleForUid;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
+import android.annotation.RequiresPermission;
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.PackageInfoFlags;
 import android.media.IMediaCommunicationService;
 import android.media.IMediaCommunicationServiceCallback;
 import android.media.MediaController2;
@@ -224,7 +225,7 @@ public class MediaCommunicationService extends SystemService {
         }
     }
 
-    void dispatchSession2Created(Session2Token token) {
+    void dispatchSession2Created(Session2Token token, int pid) {
         synchronized (mLock) {
             for (CallbackRecord record : mCallbackRecords) {
                 if (record.mUserId != ALL.getIdentifier()
@@ -232,7 +233,7 @@ public class MediaCommunicationService extends SystemService {
                     continue;
                 }
                 try {
-                    record.mCallback.onSession2Created(token);
+                    record.mCallback.onSession2Created(token, pid);
                 } catch (RemoteException e) {
                     Log.w(TAG, "Failed to notify session2 token created " + record);
                 }
@@ -335,8 +336,13 @@ public class MediaCommunicationService extends SystemService {
                     Log.w(TAG, "notifySession2Created: Ignore session of an unknown user");
                     return;
                 }
-                user.addSession(new Session2Record(MediaCommunicationService.this,
-                        user, sessionToken, mRecordExecutor));
+                user.addSession(
+                        new Session2Record(
+                                MediaCommunicationService.this,
+                                user,
+                                sessionToken,
+                                mRecordExecutor),
+                        pid);
             } finally {
                 Binder.restoreCallingIdentity(token);
             }
@@ -418,16 +424,23 @@ public class MediaCommunicationService extends SystemService {
         }
 
         @Override
-        public void registerCallback(IMediaCommunicationServiceCallback callback,
-                String packageName) throws RemoteException {
+        @RequiresPermission(MEDIA_CONTENT_CONTROL)
+        public void registerCallback(@NonNull IMediaCommunicationServiceCallback callback,
+                                     @NonNull String packageName) throws RemoteException {
             Objects.requireNonNull(callback, "callback should not be null");
             Objects.requireNonNull(packageName, "packageName should not be null");
 
+            final int uid = Binder.getCallingUid();
+            final int pid = Binder.getCallingPid();
+            if (!hasMediaControlPermission(pid, uid)){
+                throw new SecurityException("MEDIA_CONTENT_CONTROL permission is required to"
+                        + " register MediaCommunicationServiceCallback");
+            }
+
             synchronized (mLock) {
                 if (findCallbackRecordLocked(callback) == null) {
-
                     CallbackRecord record = new CallbackRecord(callback, packageName,
-                            Binder.getCallingUid(), Binder.getCallingPid());
+                            uid, pid);
                     mCallbackRecords.add(record);
                     try {
                         callback.asBinder().linkToDeath(record, 0);
@@ -558,9 +571,9 @@ public class MediaCommunicationService extends SystemService {
             mFullUserId = fullUserId;
         }
 
-        public void addSession(Session2Record record) {
+        public void addSession(Session2Record record, int pid) {
             mSessionPriorityList.addSession(record);
-            mHandler.post(() -> dispatchSession2Created(record.mSessionToken));
+            mHandler.post(() -> dispatchSession2Created(record.mSessionToken, pid));
             mHandler.post(() -> dispatchSession2Changed(mFullUserId));
         }
 
