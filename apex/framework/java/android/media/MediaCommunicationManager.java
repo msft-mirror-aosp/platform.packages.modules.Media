@@ -284,15 +284,21 @@ public class MediaCommunicationManager {
     @SystemApi(client = MODULE_LIBRARIES)
     public interface SessionCallback {
         /**
-         * Called when {@link #onSession2TokenCreated(Session2Token, int)} is left unimplemented.
+         * Equivalent to {@link #onSession2TokenCreated(Session2Token, int)}, except
+         * it does not take the pid of the session.
+         *
+         * <p>Not invoked if the implementation overrides {@link
+         * #onSession2TokenCreated(Session2Token, int)}.
          *
          * @param token the newly created token
          */
-        // TODO (b/324266224): Deprecate this method once other overload is published.
         default void onSession2TokenCreated(@NonNull Session2Token token) {}
 
         /**
          * Called when a new {@link MediaSession2} is created.
+         *
+         * <p>The default implementation calls {@link #onSession2TokenCreated(Session2Token,
+         * int)}.
          *
          * @param token the newly created token
          * @param pid the pid of the process hosting the media session
