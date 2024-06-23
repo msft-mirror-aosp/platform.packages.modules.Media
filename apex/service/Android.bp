@@ -48,7 +48,7 @@ java_sdk_library {
     min_sdk_version: "29", // TODO: We may need to bump this at some point.
     lint: {
         strict_updatability_linting: true,
-        baseline_filename: "lint-baseline.xml",
+
     },
     apex_available: [
         "com.android.media",
