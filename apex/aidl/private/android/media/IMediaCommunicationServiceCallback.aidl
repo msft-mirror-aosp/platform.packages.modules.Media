@@ -20,7 +20,7 @@ import android.media.MediaParceledListSlice;
 
 /** {@hide} */
 oneway interface IMediaCommunicationServiceCallback {
-    void onSession2Created(in Session2Token token);
+    void onSession2Created(in Session2Token token, in int pid);
     void onSession2Changed(in MediaParceledListSlice tokens);
 }
 
