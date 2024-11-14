@@ -1,0 +1,10 @@
+package: "com.android.media.metrics.flags"
+container: "com.android.media"
+
+flag {
+  name: "mediametrics_to_module"
+  namespace: "media_reliability"
+  description: "Move android.media.metrics.* to androd.media.metrics.module in module"
+  bug: "189976186"
+  is_exported: true
+}
