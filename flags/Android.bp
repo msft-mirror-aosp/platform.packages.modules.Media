@@ -18,12 +18,13 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
+// ----
 aconfig_declarations {
     name: "media_mainline_aconfig_flags",
     package: "com.android.media.mainline.flags",
     container: "com.android.media",
     srcs: [
-        "**/*.aconfig",
+        "flags.aconfig",
     ],
 }
 
@@ -38,4 +39,30 @@ java_aconfig_library {
     ],
     defaults: ["framework-minus-apex-aconfig-java-defaults"],
     min_sdk_version: "29",
+}
+
+// ----
+// NB: mediametrics in the module is >= SDK 35
+aconfig_declarations {
+    name: "media_metrics_aconfig_flags",
+    package: "com.android.media.metrics.flags",
+    container: "com.android.media",
+    exportable: true,
+    srcs: [
+        "mediametrics.aconfig",
+    ],
+}
+
+java_aconfig_library {
+    name: "media_metrics_flags_java_lib",
+    defaults: ["framework-minus-apex-aconfig-java-defaults"],
+    aconfig_declarations: "media_metrics_aconfig_flags",
+    mode: "exported",
+    visibility: [
+        "//packages/modules/Media:__subpackages__",
+    ],
+    apex_available: [
+        "com.android.media",
+    ],
+    min_sdk_version: "35",
 }
