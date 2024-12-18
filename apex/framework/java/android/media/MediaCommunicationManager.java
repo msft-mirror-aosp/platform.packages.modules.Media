@@ -147,7 +147,7 @@ public class MediaCommunicationManager {
     /**
      * This API is not generally intended for third party application developers.
      * Use the <a href="{@docRoot}jetpack/androidx.html">AndroidX</a>
-     * <a href="{@docRoot}reference/androidx/media2/session/package-summary.html">Media2 session
+     * <a href="{@docRoot}media/media3/session/control-playback">Media3 session
      * Library</a> for consistent behavior across all devices.
      * <p>
      * Gets a list of {@link Session2Token} with type {@link Session2Token#TYPE_SESSION} for the
@@ -284,15 +284,21 @@ public class MediaCommunicationManager {
     @SystemApi(client = MODULE_LIBRARIES)
     public interface SessionCallback {
         /**
-         * Called when {@link #onSession2TokenCreated(Session2Token, int)} is left unimplemented.
+         * Equivalent to {@link #onSession2TokenCreated(Session2Token, int)}, except
+         * it does not take the pid of the session.
+         *
+         * <p>Not invoked if the implementation overrides {@link
+         * #onSession2TokenCreated(Session2Token, int)}.
          *
          * @param token the newly created token
          */
-        // TODO (b/324266224): Deprecate this method once other overload is published.
         default void onSession2TokenCreated(@NonNull Session2Token token) {}
 
         /**
          * Called when a new {@link MediaSession2} is created.
+         *
+         * <p>The default implementation calls {@link #onSession2TokenCreated(Session2Token,
+         * int)}.
          *
          * @param token the newly created token
          * @param pid the pid of the process hosting the media session
