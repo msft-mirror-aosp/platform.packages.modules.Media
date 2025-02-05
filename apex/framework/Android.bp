@@ -34,6 +34,7 @@ java_library {
     optimize: {
         enabled: true,
         shrink: true,
+        proguard_compatibility: true,
         proguard_flags_files: ["updatable-media-proguard.flags"],
     },
 
