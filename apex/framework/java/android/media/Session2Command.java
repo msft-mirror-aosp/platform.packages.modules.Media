@@ -36,9 +36,6 @@ import java.util.Objects;
  * If {@link #getCommandCode()} isn't {@link #COMMAND_CODE_CUSTOM}), it's predefined command.
  * If {@link #getCommandCode()} is {@link #COMMAND_CODE_CUSTOM}), it's custom command and
  * {@link #getCustomAction()} shouldn't be {@code null}.
- * <p>
- * Refer to the <a href="{@docRoot}reference/androidx/media2/session/SessionCommand.html">
- * AndroidX SessionCommand</a> class for the list of valid commands.
  */
 public final class Session2Command implements Parcelable {
     /**
