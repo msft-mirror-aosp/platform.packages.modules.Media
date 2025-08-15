@@ -27,6 +27,7 @@ import static android.media.Session2Command.Result.RESULT_ERROR_UNKNOWN_ERROR;
 import static android.media.Session2Command.Result.RESULT_INFO_SKIPPED;
 import static android.media.Session2Token.TYPE_SESSION;
 
+import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.app.PendingIntent;
@@ -44,6 +45,7 @@ import android.util.ArrayMap;
 import android.util.ArraySet;
 import android.util.Log;
 
+import com.android.media.mainline.flags.Flags;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
@@ -61,7 +63,12 @@ import java.util.concurrent.Executor;
  * <p>
  * Allows a media app to expose its transport controls and playback information in a process to
  * other processes including the Android framework and other apps.
+ *
+ * @deprecated Use the Media3 support library's {@code androidx.media3.session.MediaSession}
+ *   instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+@Deprecated
 public class MediaSession2 implements AutoCloseable {
     static final String TAG = "MediaSession2";
     static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
@@ -509,7 +516,12 @@ public class MediaSession2 implements AutoCloseable {
      * <p>
      * Any incoming event from the {@link MediaController2} will be handled on the callback
      * executor. If it's not set, {@link Context#getMainExecutor()} will be used by default.
+     *
+     * @deprecated Use the Media3 support library's {@code androidx.media3.session.MediaSession}
+     *    instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public static final class Builder {
         private Context mContext;
         private String mId;
@@ -652,7 +664,12 @@ public class MediaSession2 implements AutoCloseable {
      * Library</a> for consistent behavior across all devices.
      * <p>
      * Information of a controller.
+     *
+     * @deprecated Use the Media3 support library's {@code androidx.media3.session.MediaSession}
+     *    instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public static final class ControllerInfo {
         private final RemoteUserInfo mRemoteUserInfo;
         private final boolean mIsTrusted;
@@ -846,7 +863,12 @@ public class MediaSession2 implements AutoCloseable {
      * Library</a> for consistent behavior across all devices.
      * <p>
      * Callback to be called for all incoming commands from {@link MediaController2}s.
+     *
+     * @deprecated Use the Media3 support library's {@code androidx.media3.session.MediaSession}
+     *    instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public abstract static class SessionCallback {
         /**
          * Called when a controller is created for this session. Return allowed commands for

@@ -16,12 +16,15 @@
 
 package android.media;
 
+import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+
+import com.android.media.mainline.flags.Flags;
 
 import java.util.Objects;
 
@@ -36,7 +39,11 @@ import java.util.Objects;
  * If {@link #getCommandCode()} isn't {@link #COMMAND_CODE_CUSTOM}), it's predefined command.
  * If {@link #getCommandCode()} is {@link #COMMAND_CODE_CUSTOM}), it's custom command and
  * {@link #getCustomAction()} shouldn't be {@code null}.
+ *
+ * @deprecated Use the Media3 support library instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+@Deprecated
 public final class Session2Command implements Parcelable {
     /**
      * Command code for the custom command which can be defined by string action in the
@@ -164,7 +171,11 @@ public final class Session2Command implements Parcelable {
      * Library</a> for consistent behavior across all devices.
      * <p>
      * Contains the result of {@link Session2Command}.
+     *
+     * @deprecated Use the Media3 support library instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public static final class Result {
         private final int mResultCode;
         private final Bundle mResultData;

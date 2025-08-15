@@ -17,6 +17,7 @@
 package android.media;
 
 import android.annotation.IntDef;
+import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.ComponentName;
@@ -29,6 +30,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.media.mainline.flags.Flags;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -48,7 +51,11 @@ import java.util.Objects;
  * {@link MediaController2} to communicate with the session.
  * <p>
  * It can be also obtained by {@link android.media.session.MediaSessionManager}.
+ *
+ * @deprecated Use the Media3 support library instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+@Deprecated
 public final class Session2Token implements Parcelable {
     private static final String TAG = "Session2Token";
 
