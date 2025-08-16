@@ -49,12 +49,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 
 /**
+ * This API is not generally intended for third party application developers. Use {@link
+ * MediaSessionManager} to obtain information about active media sessions on the device.
+ *
  * Provides support for interacting with {@link android.media.MediaSession2 MediaSession2s}
  * that applications have published to express their ongoing media playback state.
+ *
+ * @deprecated Use {@link MediaSessionManager} instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
 @MinSdk(Build.VERSION_CODES.S)
 @RequiresApi(Build.VERSION_CODES.S)
 @SystemService(Context.MEDIA_COMMUNICATION_SERVICE)
+@Deprecated
 public class MediaCommunicationManager {
     private static final String TAG = "MediaCommunicationManager";
 
@@ -285,7 +292,11 @@ public class MediaCommunicationManager {
      * Callback for listening to changes to the sessions.
      * @see #registerSessionCallback(Executor, SessionCallback)
      * @hide
+     *
+     * @deprecated Use {@link MediaSessionManager} instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     @SystemApi(client = MODULE_LIBRARIES)
     public interface SessionCallback {
         /**
@@ -308,7 +319,6 @@ public class MediaCommunicationManager {
          * @param token the newly created token
          * @param pid the pid of the process hosting the media session
          */
-        @FlaggedApi(Flags.FLAG_ENABLE_PID_TO_MEDIA_SESSION_2)
         default void onSession2TokenCreated(@NonNull Session2Token token, int pid) {
             onSession2TokenCreated(token);
         }

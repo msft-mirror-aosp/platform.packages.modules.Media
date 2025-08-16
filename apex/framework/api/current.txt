@@ -24,33 +24,33 @@ package android.media {
     method @NonNull public android.media.ApplicationMediaCapabilities build();
   }
 
-  public class MediaCommunicationManager {
-    method @NonNull public java.util.List<android.media.Session2Token> getSession2Tokens();
-    method @IntRange(from=1) public int getVersion();
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaCommunicationManager {
+    method @Deprecated @NonNull public java.util.List<android.media.Session2Token> getSession2Tokens();
+    method @Deprecated @IntRange(from=1) public int getVersion();
   }
 
-  public class MediaController2 implements java.lang.AutoCloseable {
-    method public void cancelSessionCommand(@NonNull Object);
-    method public void close();
-    method @Nullable public android.media.Session2Token getConnectedToken();
-    method public boolean isPlaybackActive();
-    method @NonNull public Object sendSessionCommand(@NonNull android.media.Session2Command, @Nullable android.os.Bundle);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaController2 implements java.lang.AutoCloseable {
+    method @Deprecated public void cancelSessionCommand(@NonNull Object);
+    method @Deprecated public void close();
+    method @Deprecated @Nullable public android.media.Session2Token getConnectedToken();
+    method @Deprecated public boolean isPlaybackActive();
+    method @Deprecated @NonNull public Object sendSessionCommand(@NonNull android.media.Session2Command, @Nullable android.os.Bundle);
   }
 
-  public static final class MediaController2.Builder {
-    ctor public MediaController2.Builder(@NonNull android.content.Context, @NonNull android.media.Session2Token);
-    method @NonNull public android.media.MediaController2 build();
-    method @NonNull public android.media.MediaController2.Builder setConnectionHints(@NonNull android.os.Bundle);
-    method @NonNull public android.media.MediaController2.Builder setControllerCallback(@NonNull java.util.concurrent.Executor, @NonNull android.media.MediaController2.ControllerCallback);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static final class MediaController2.Builder {
+    ctor @Deprecated public MediaController2.Builder(@NonNull android.content.Context, @NonNull android.media.Session2Token);
+    method @Deprecated @NonNull public android.media.MediaController2 build();
+    method @Deprecated @NonNull public android.media.MediaController2.Builder setConnectionHints(@NonNull android.os.Bundle);
+    method @Deprecated @NonNull public android.media.MediaController2.Builder setControllerCallback(@NonNull java.util.concurrent.Executor, @NonNull android.media.MediaController2.ControllerCallback);
   }
 
-  public abstract static class MediaController2.ControllerCallback {
-    ctor public MediaController2.ControllerCallback();
-    method public void onCommandResult(@NonNull android.media.MediaController2, @NonNull Object, @NonNull android.media.Session2Command, @NonNull android.media.Session2Command.Result);
-    method public void onConnected(@NonNull android.media.MediaController2, @NonNull android.media.Session2CommandGroup);
-    method public void onDisconnected(@NonNull android.media.MediaController2);
-    method public void onPlaybackActiveChanged(@NonNull android.media.MediaController2, boolean);
-    method @Nullable public android.media.Session2Command.Result onSessionCommand(@NonNull android.media.MediaController2, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public abstract static class MediaController2.ControllerCallback {
+    ctor @Deprecated public MediaController2.ControllerCallback();
+    method @Deprecated public void onCommandResult(@NonNull android.media.MediaController2, @NonNull Object, @NonNull android.media.Session2Command, @NonNull android.media.Session2Command.Result);
+    method @Deprecated public void onConnected(@NonNull android.media.MediaController2, @NonNull android.media.Session2CommandGroup);
+    method @Deprecated public void onDisconnected(@NonNull android.media.MediaController2);
+    method @Deprecated public void onPlaybackActiveChanged(@NonNull android.media.MediaController2, boolean);
+    method @Deprecated @Nullable public android.media.Session2Command.Result onSessionCommand(@NonNull android.media.MediaController2, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
   }
 
   public final class MediaFeature {
@@ -157,110 +157,110 @@ package android.media {
   public static final class MediaParser.UnrecognizedInputFormatException extends java.io.IOException {
   }
 
-  public class MediaSession2 implements java.lang.AutoCloseable {
-    method public void broadcastSessionCommand(@NonNull android.media.Session2Command, @Nullable android.os.Bundle);
-    method public void cancelSessionCommand(@NonNull android.media.MediaSession2.ControllerInfo, @NonNull Object);
-    method public void close();
-    method @NonNull public java.util.List<android.media.MediaSession2.ControllerInfo> getConnectedControllers();
-    method @NonNull public String getId();
-    method @NonNull public android.media.Session2Token getToken();
-    method public boolean isPlaybackActive();
-    method @NonNull public Object sendSessionCommand(@NonNull android.media.MediaSession2.ControllerInfo, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
-    method public void setPlaybackActive(boolean);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaSession2 implements java.lang.AutoCloseable {
+    method @Deprecated public void broadcastSessionCommand(@NonNull android.media.Session2Command, @Nullable android.os.Bundle);
+    method @Deprecated public void cancelSessionCommand(@NonNull android.media.MediaSession2.ControllerInfo, @NonNull Object);
+    method @Deprecated public void close();
+    method @Deprecated @NonNull public java.util.List<android.media.MediaSession2.ControllerInfo> getConnectedControllers();
+    method @Deprecated @NonNull public String getId();
+    method @Deprecated @NonNull public android.media.Session2Token getToken();
+    method @Deprecated public boolean isPlaybackActive();
+    method @Deprecated @NonNull public Object sendSessionCommand(@NonNull android.media.MediaSession2.ControllerInfo, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
+    method @Deprecated public void setPlaybackActive(boolean);
   }
 
-  public static final class MediaSession2.Builder {
-    ctor public MediaSession2.Builder(@NonNull android.content.Context);
-    method @NonNull public android.media.MediaSession2 build();
-    method @NonNull public android.media.MediaSession2.Builder setExtras(@NonNull android.os.Bundle);
-    method @NonNull public android.media.MediaSession2.Builder setId(@NonNull String);
-    method @NonNull public android.media.MediaSession2.Builder setSessionActivity(@Nullable android.app.PendingIntent);
-    method @NonNull public android.media.MediaSession2.Builder setSessionCallback(@NonNull java.util.concurrent.Executor, @NonNull android.media.MediaSession2.SessionCallback);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static final class MediaSession2.Builder {
+    ctor @Deprecated public MediaSession2.Builder(@NonNull android.content.Context);
+    method @Deprecated @NonNull public android.media.MediaSession2 build();
+    method @Deprecated @NonNull public android.media.MediaSession2.Builder setExtras(@NonNull android.os.Bundle);
+    method @Deprecated @NonNull public android.media.MediaSession2.Builder setId(@NonNull String);
+    method @Deprecated @NonNull public android.media.MediaSession2.Builder setSessionActivity(@Nullable android.app.PendingIntent);
+    method @Deprecated @NonNull public android.media.MediaSession2.Builder setSessionCallback(@NonNull java.util.concurrent.Executor, @NonNull android.media.MediaSession2.SessionCallback);
   }
 
-  public static final class MediaSession2.ControllerInfo {
-    method @NonNull public android.os.Bundle getConnectionHints();
-    method @NonNull public String getPackageName();
-    method @NonNull public android.media.session.MediaSessionManager.RemoteUserInfo getRemoteUserInfo();
-    method public int getUid();
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static final class MediaSession2.ControllerInfo {
+    method @Deprecated @NonNull public android.os.Bundle getConnectionHints();
+    method @Deprecated @NonNull public String getPackageName();
+    method @Deprecated @NonNull public android.media.session.MediaSessionManager.RemoteUserInfo getRemoteUserInfo();
+    method @Deprecated public int getUid();
   }
 
-  public abstract static class MediaSession2.SessionCallback {
-    ctor public MediaSession2.SessionCallback();
-    method public void onCommandResult(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo, @NonNull Object, @NonNull android.media.Session2Command, @NonNull android.media.Session2Command.Result);
-    method @Nullable public android.media.Session2CommandGroup onConnect(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
-    method public void onDisconnected(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
-    method public void onPostConnect(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
-    method @Nullable public android.media.Session2Command.Result onSessionCommand(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public abstract static class MediaSession2.SessionCallback {
+    ctor @Deprecated public MediaSession2.SessionCallback();
+    method @Deprecated public void onCommandResult(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo, @NonNull Object, @NonNull android.media.Session2Command, @NonNull android.media.Session2Command.Result);
+    method @Deprecated @Nullable public android.media.Session2CommandGroup onConnect(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
+    method @Deprecated public void onDisconnected(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
+    method @Deprecated public void onPostConnect(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo);
+    method @Deprecated @Nullable public android.media.Session2Command.Result onSessionCommand(@NonNull android.media.MediaSession2, @NonNull android.media.MediaSession2.ControllerInfo, @NonNull android.media.Session2Command, @Nullable android.os.Bundle);
   }
 
-  public abstract class MediaSession2Service extends android.app.Service {
-    ctor public MediaSession2Service();
-    method public final void addSession(@NonNull android.media.MediaSession2);
-    method @NonNull public final java.util.List<android.media.MediaSession2> getSessions();
-    method @CallSuper @Nullable public android.os.IBinder onBind(@NonNull android.content.Intent);
-    method @Nullable public abstract android.media.MediaSession2 onGetSession(@NonNull android.media.MediaSession2.ControllerInfo);
-    method @Nullable public abstract android.media.MediaSession2Service.MediaNotification onUpdateNotification(@NonNull android.media.MediaSession2);
-    method public final void removeSession(@NonNull android.media.MediaSession2);
-    field public static final String SERVICE_INTERFACE = "android.media.MediaSession2Service";
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public abstract class MediaSession2Service extends android.app.Service {
+    ctor @Deprecated public MediaSession2Service();
+    method @Deprecated public final void addSession(@NonNull android.media.MediaSession2);
+    method @Deprecated @NonNull public final java.util.List<android.media.MediaSession2> getSessions();
+    method @Deprecated @CallSuper @Nullable public android.os.IBinder onBind(@NonNull android.content.Intent);
+    method @Deprecated @Nullable public abstract android.media.MediaSession2 onGetSession(@NonNull android.media.MediaSession2.ControllerInfo);
+    method @Deprecated @Nullable public abstract android.media.MediaSession2Service.MediaNotification onUpdateNotification(@NonNull android.media.MediaSession2);
+    method @Deprecated public final void removeSession(@NonNull android.media.MediaSession2);
+    field @Deprecated public static final String SERVICE_INTERFACE = "android.media.MediaSession2Service";
   }
 
-  public static class MediaSession2Service.MediaNotification {
-    ctor public MediaSession2Service.MediaNotification(int, @NonNull android.app.Notification);
-    method @NonNull public android.app.Notification getNotification();
-    method public int getNotificationId();
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static class MediaSession2Service.MediaNotification {
+    ctor @Deprecated public MediaSession2Service.MediaNotification(int, @NonNull android.app.Notification);
+    method @Deprecated @NonNull public android.app.Notification getNotification();
+    method @Deprecated public int getNotificationId();
   }
 
-  public final class Session2Command implements android.os.Parcelable {
-    ctor public Session2Command(int);
-    ctor public Session2Command(@NonNull String, @Nullable android.os.Bundle);
-    method public int describeContents();
-    method public int getCommandCode();
-    method @Nullable public String getCustomAction();
-    method @Nullable public android.os.Bundle getCustomExtras();
-    method public void writeToParcel(@NonNull android.os.Parcel, int);
-    field public static final int COMMAND_CODE_CUSTOM = 0; // 0x0
-    field @NonNull public static final android.os.Parcelable.Creator<android.media.Session2Command> CREATOR;
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public final class Session2Command implements android.os.Parcelable {
+    ctor @Deprecated public Session2Command(int);
+    ctor @Deprecated public Session2Command(@NonNull String, @Nullable android.os.Bundle);
+    method @Deprecated public int describeContents();
+    method @Deprecated public int getCommandCode();
+    method @Deprecated @Nullable public String getCustomAction();
+    method @Deprecated @Nullable public android.os.Bundle getCustomExtras();
+    method @Deprecated public void writeToParcel(@NonNull android.os.Parcel, int);
+    field @Deprecated public static final int COMMAND_CODE_CUSTOM = 0; // 0x0
+    field @Deprecated @NonNull public static final android.os.Parcelable.Creator<android.media.Session2Command> CREATOR;
   }
 
-  public static final class Session2Command.Result {
-    ctor public Session2Command.Result(int, @Nullable android.os.Bundle);
-    method public int getResultCode();
-    method @Nullable public android.os.Bundle getResultData();
-    field public static final int RESULT_ERROR_UNKNOWN_ERROR = -1; // 0xffffffff
-    field public static final int RESULT_INFO_SKIPPED = 1; // 0x1
-    field public static final int RESULT_SUCCESS = 0; // 0x0
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static final class Session2Command.Result {
+    ctor @Deprecated public Session2Command.Result(int, @Nullable android.os.Bundle);
+    method @Deprecated public int getResultCode();
+    method @Deprecated @Nullable public android.os.Bundle getResultData();
+    field @Deprecated public static final int RESULT_ERROR_UNKNOWN_ERROR = -1; // 0xffffffff
+    field @Deprecated public static final int RESULT_INFO_SKIPPED = 1; // 0x1
+    field @Deprecated public static final int RESULT_SUCCESS = 0; // 0x0
   }
 
-  public final class Session2CommandGroup implements android.os.Parcelable {
-    method public int describeContents();
-    method @NonNull public java.util.Set<android.media.Session2Command> getCommands();
-    method public boolean hasCommand(@NonNull android.media.Session2Command);
-    method public boolean hasCommand(int);
-    method public void writeToParcel(@NonNull android.os.Parcel, int);
-    field @NonNull public static final android.os.Parcelable.Creator<android.media.Session2CommandGroup> CREATOR;
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public final class Session2CommandGroup implements android.os.Parcelable {
+    method @Deprecated public int describeContents();
+    method @Deprecated @NonNull public java.util.Set<android.media.Session2Command> getCommands();
+    method @Deprecated public boolean hasCommand(@NonNull android.media.Session2Command);
+    method @Deprecated public boolean hasCommand(int);
+    method @Deprecated public void writeToParcel(@NonNull android.os.Parcel, int);
+    field @Deprecated @NonNull public static final android.os.Parcelable.Creator<android.media.Session2CommandGroup> CREATOR;
   }
 
-  public static final class Session2CommandGroup.Builder {
-    ctor public Session2CommandGroup.Builder();
-    ctor public Session2CommandGroup.Builder(@NonNull android.media.Session2CommandGroup);
-    method @NonNull public android.media.Session2CommandGroup.Builder addCommand(@NonNull android.media.Session2Command);
-    method @NonNull public android.media.Session2CommandGroup build();
-    method @NonNull public android.media.Session2CommandGroup.Builder removeCommand(@NonNull android.media.Session2Command);
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public static final class Session2CommandGroup.Builder {
+    ctor @Deprecated public Session2CommandGroup.Builder();
+    ctor @Deprecated public Session2CommandGroup.Builder(@NonNull android.media.Session2CommandGroup);
+    method @Deprecated @NonNull public android.media.Session2CommandGroup.Builder addCommand(@NonNull android.media.Session2Command);
+    method @Deprecated @NonNull public android.media.Session2CommandGroup build();
+    method @Deprecated @NonNull public android.media.Session2CommandGroup.Builder removeCommand(@NonNull android.media.Session2Command);
   }
 
-  public final class Session2Token implements android.os.Parcelable {
-    ctor public Session2Token(@NonNull android.content.Context, @NonNull android.content.ComponentName);
-    method public int describeContents();
-    method @NonNull public android.os.Bundle getExtras();
-    method @NonNull public String getPackageName();
-    method @Nullable public String getServiceName();
-    method public int getType();
-    method public int getUid();
-    method public void writeToParcel(android.os.Parcel, int);
-    field @NonNull public static final android.os.Parcelable.Creator<android.media.Session2Token> CREATOR;
-    field public static final int TYPE_SESSION = 0; // 0x0
-    field public static final int TYPE_SESSION_SERVICE = 1; // 0x1
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public final class Session2Token implements android.os.Parcelable {
+    ctor @Deprecated public Session2Token(@NonNull android.content.Context, @NonNull android.content.ComponentName);
+    method @Deprecated public int describeContents();
+    method @Deprecated @NonNull public android.os.Bundle getExtras();
+    method @Deprecated @NonNull public String getPackageName();
+    method @Deprecated @Nullable public String getServiceName();
+    method @Deprecated public int getType();
+    method @Deprecated public int getUid();
+    method @Deprecated public void writeToParcel(android.os.Parcel, int);
+    field @Deprecated @NonNull public static final android.os.Parcelable.Creator<android.media.Session2Token> CREATOR;
+    field @Deprecated public static final int TYPE_SESSION = 0; // 0x0
+    field @Deprecated public static final int TYPE_SESSION_SERVICE = 1; // 0x1
   }
 
 }

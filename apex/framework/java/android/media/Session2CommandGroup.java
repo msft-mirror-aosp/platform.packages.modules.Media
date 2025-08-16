@@ -18,10 +18,13 @@ package android.media;
 
 import static android.media.Session2Command.COMMAND_CODE_CUSTOM;
 
+import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.android.media.mainline.flags.Flags;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,7 +37,11 @@ import java.util.Set;
  * Library</a> for consistent behavior across all devices.
  * <p>
  * A set of {@link Session2Command} which represents a command group.
+ *
+ * @deprecated Use the Media3 support library instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+@Deprecated
 public final class Session2CommandGroup implements Parcelable {
     private static final String TAG = "Session2CommandGroup";
 
@@ -136,7 +143,11 @@ public final class Session2CommandGroup implements Parcelable {
      * Library</a> for consistent behavior across all devices.
      * <p>
      * Builds a {@link Session2CommandGroup} object.
+     *
+     * @deprecated Use the Media3 support library instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public static final class Builder {
         private Set<Session2Command> mCommands;
 

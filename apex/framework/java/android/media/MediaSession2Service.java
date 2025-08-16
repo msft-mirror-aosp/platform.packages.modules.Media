@@ -21,6 +21,7 @@ import static android.media.MediaConstants.KEY_PACKAGE_NAME;
 import static android.media.MediaConstants.KEY_PID;
 
 import android.annotation.CallSuper;
+import android.annotation.FlaggedApi;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.app.Notification;
@@ -38,6 +39,8 @@ import android.os.IBinder;
 import android.util.ArrayMap;
 import android.util.Log;
 
+import com.android.media.mainline.flags.Flags;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +53,12 @@ import java.util.Map;
  * Library</a> for consistent behavior across all devices.
  * <p>
  * Service containing {@link MediaSession2}.
+ *
+ * @deprecated Use the Media3 support library's {@code androidx.media3.session.MediaSessionService}
+ *   instead.
  */
+@FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+@Deprecated
 public abstract class MediaSession2Service extends Service {
     /**
      * The {@link Intent} that must be declared as handled by the service.
@@ -295,7 +303,12 @@ public abstract class MediaSession2Service extends Service {
      * Returned by {@link #onUpdateNotification(MediaSession2)} for making session service
      * foreground service to keep playback running in the background. It's highly recommended to
      * show media style notification here.
+     *
+     * @deprecated Use the Media3 support library's {@code
+     *   androidx.media3.session.MediaSessionService} instead.
      */
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MAINLINE_MEDIASESSION2_APIS)
+    @Deprecated
     public static class MediaNotification {
         private final int mNotificationId;
         private final Notification mNotification;
