@@ -20,7 +20,7 @@ import android.media.IMediaCommunicationServiceCallback;
 import android.media.MediaParceledListSlice;
 import android.view.KeyEvent;
 
-/** {@hide} */
+/** @hide */
 interface IMediaCommunicationService {
     void notifySession2Created(in Session2Token sessionToken);
     boolean isTrusted(String controllerPackageName, int controllerPid, int controllerUid);
