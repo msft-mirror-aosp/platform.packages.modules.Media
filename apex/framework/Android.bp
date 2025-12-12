@@ -99,12 +99,21 @@ filegroup {
     path: "java",
 }
 
+genrule {
+    name: "gen_mediaparser_java",
+    srcs: select(release_flag("RELEASE_MEDIA3_MIGRATION_FOR_MEDIAPARSER"), {
+        true: ["java/android/media/MediaParser.java.media3"],
+        default: ["java/android/media/MediaParser.java"],
+    }),
+    out: ["gen/android/media/MediaParser.java"],
+    cmd: "mkdir -p $(genDir)/gen/android/media && cp $(in) $(out)",
+}
+
 filegroup {
     name: "mediaparser-srcs",
     srcs: [
-        "java/android/media/MediaParser.java",
+        ":gen_mediaparser_java",
     ],
-    path: "java",
 }
 
 filegroup {
@@ -115,6 +124,21 @@ filegroup {
         "java/android/media/MediaTranscodingManager.java",
     ],
     path: "java",
+}
+
+// Helper library to conditionally select the extractor implementation
+java_library {
+    name: "extractor-impl",
+    static_libs: select(release_flag("RELEASE_MEDIA3_MIGRATION_FOR_MEDIAPARSER"), {
+        true: ["androidx.media3.media3-extractor"],
+        default: ["exoplayer-media_apex"],
+    }),
+    sdk_version: "module_current",
+    min_sdk_version: "29",
+    apex_available: [
+        "com.android.media",
+        "test_com.android.media",
+    ],
 }
 
 java_sdk_library {
@@ -136,10 +160,10 @@ java_sdk_library {
         "framework-annotations-lib",
     ],
     impl_only_static_libs: [
-        "exoplayer-media_apex",
         "mediatranscoding_aidl_interface-java",
         "modules-annotation-minsdk",
         "modules-utils-build",
+        "extractor-impl",
     ],
     jarjar_rules: "jarjar_rules.txt",
 
@@ -156,7 +180,7 @@ java_sdk_library {
     ],
     static_libs: [
         "media_mainline_flags_java_lib",
-    ]
+    ],
 }
 
 cc_library_shared {
