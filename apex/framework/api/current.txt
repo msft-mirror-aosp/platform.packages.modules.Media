@@ -135,9 +135,7 @@ package android.media {
   public static final class MediaParser.SeekMap {
     method public long getDurationMicros();
     method @NonNull public android.util.Pair<android.media.MediaParser.SeekPoint,android.media.MediaParser.SeekPoint> getSeekPoints(long);
-    method @FlaggedApi("com.android.media.mainline.flags.mediaparser_track_aware_seeking") @NonNull public android.util.Pair<android.media.MediaParser.SeekPoint,android.media.MediaParser.SeekPoint> getSeekPoints(long, int);
     method public boolean isSeekable();
-    method @FlaggedApi("com.android.media.mainline.flags.mediaparser_track_aware_seeking") public boolean trackHasSeekPoints(int);
     field public static final int UNKNOWN_DURATION = -2147483648; // 0x80000000
   }
 
