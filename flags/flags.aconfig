@@ -16,3 +16,11 @@ flag {
   description: "Deprecate Mainline MediaSession2 APIs"
   bug: "436851709"
 }
+
+flag {
+    name: "mediaparser_track_aware_seeking"
+    namespace: "media_solutions"
+    description: "Controls the new track-aware seeking APIs in MediaParser.SeekMap."
+    bug: "449951865"
+    is_exported: true
+}
