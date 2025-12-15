@@ -15,10 +15,7 @@
  */
 package android.media;
 
-import static com.android.media.mainline.flags.Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING;
-
 import android.annotation.CheckResult;
-import android.annotation.FlaggedApi;
 import android.annotation.IntDef;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
@@ -128,7 +125,7 @@ import java.util.function.Function;
  *     private int bytesWrittenCount = 0;
  *
  *     &#64;Override
- *     public void onSeekMapFound(&#64;NonNull SeekMap seekMap) {
+ *     public void onSeekMapFound(int i, &#64;NonNull MediaFormat mediaFormat) {
  *       // Do nothing.
  *     }
  *
@@ -237,26 +234,6 @@ public final class MediaParser {
         }
 
         /**
-         * Returns whether the given track has its own {@linkplain SeekPoint seek points}.
-         *
-         * <p>The {@code trackIndex} is the same index passed to {@link
-         * OutputConsumer#onTrackDataFound(int, TrackData)}.
-         *
-         * <p>This method can return {@code false} for all tracks even when {@link #isSeekable()}
-         * returns {@code true}. In such cases, seeking is supported for the container, but not on a
-         * per-track basis. When this method returns {@code false} for a given track, calling {@link
-         * #getSeekPoints(long, int)} for that track will fall back to using the container's seek
-         * points.
-         *
-         * @param trackIndex The index of the track.
-         * @return Whether seeking is supported for the track.
-         */
-        @FlaggedApi(FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
-        public boolean trackHasSeekPoints(int trackIndex) {
-            return false;
-        }
-
-        /**
          * Returns the duration of the stream in microseconds or {@link #UNKNOWN_DURATION} if the
          * duration is unknown.
          */
@@ -266,7 +243,7 @@ public final class MediaParser {
         }
 
         /**
-         * Obtains {@linkplain SeekPoint seek points} for the specified seek time in microseconds.
+         * Obtains {@link SeekPoint SeekPoints} for the specified seek time in microseconds.
          *
          * <p>{@code getSeekPoints(timeMicros).first} contains the latest seek point for samples
          * with timestamp equal to or smaller than {@code timeMicros}.
@@ -276,35 +253,12 @@ public final class MediaParser {
          * {@code timeMicros}, the returned pair will contain the same {@link SeekPoint} twice.
          *
          * @param timeMicros A seek time in microseconds.
-         * @return The corresponding {@linkplain SeekPoint seek points}.
+         * @return The corresponding {@link SeekPoint SeekPoints}.
          */
         @NonNull
         public Pair<SeekPoint, SeekPoint> getSeekPoints(long timeMicros) {
             SeekPoints seekPoints = mExoPlayerSeekMap.getSeekPoints(timeMicros);
             return new Pair<>(toSeekPoint(seekPoints.first), toSeekPoint(seekPoints.second));
-        }
-
-        /**
-         * Obtains {@linkplain SeekPoint seek points} for the specified seek time in microseconds,
-         * using cue points from a specific track.
-         *
-         * <p>This method is similar to {@link #getSeekPoints(long)}, but allows specifying a {@code
-         * trackIndex}. The {@code trackIndex} is the same index passed to {@link
-         * OutputConsumer#onTrackDataFound(int, TrackData)}.
-         *
-         * <p>Use {@link #trackHasSeekPoints(int)} to check if a track has its own seek points. If
-         * it returns {@code false} for the given {@code trackIndex}, this method will fall back to
-         * using the container's seek points, which is equivalent to calling {@link
-         * #getSeekPoints(long)}.
-         *
-         * @param timeMicros A seek time in microseconds.
-         * @param trackIndex The index of the track to use for finding seek points.
-         * @return The corresponding {@linkplain SeekPoint seek points}.
-         */
-        @FlaggedApi(FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
-        @NonNull
-        public Pair<SeekPoint, SeekPoint> getSeekPoints(long timeMicros, int trackIndex) {
-            return getSeekPoints(timeMicros);
         }
     }
 
