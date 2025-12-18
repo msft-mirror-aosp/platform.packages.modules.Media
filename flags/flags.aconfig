@@ -15,6 +15,7 @@ flag {
   namespace: "media_solutions"
   description: "Deprecate Mainline MediaSession2 APIs"
   bug: "436851709"
+  is_exported: true
 }
 
 flag {
