@@ -34,6 +34,7 @@ java_aconfig_library {
     aconfig_declarations: "media_mainline_aconfig_flags",
     visibility: [
         "//packages/modules/Media:__subpackages__",
+        "//cts/tests/tests/mediaparser:__subpackages__",
     ],
     apex_available: [
         "com.android.media",
