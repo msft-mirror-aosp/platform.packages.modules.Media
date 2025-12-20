@@ -15,8 +15,6 @@
  */
 package android.media;
 
-import static com.android.media.mainline.flags.Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING;
-
 import android.annotation.CheckResult;
 import android.annotation.FlaggedApi;
 import android.annotation.IntDef;
@@ -33,6 +31,7 @@ import android.util.SparseArray;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.media.mainline.flags.Flags;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.exoplayer2.C;
@@ -251,7 +250,7 @@ public final class MediaParser {
          * @param trackIndex The index of the track.
          * @return Whether seeking is supported for the track.
          */
-        @FlaggedApi(FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
+        @FlaggedApi(Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
         public boolean trackHasSeekPoints(int trackIndex) {
             return false;
         }
@@ -301,7 +300,7 @@ public final class MediaParser {
          * @param trackIndex The index of the track to use for finding seek points.
          * @return The corresponding {@linkplain SeekPoint seek points}.
          */
-        @FlaggedApi(FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
+        @FlaggedApi(Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
         @NonNull
         public Pair<SeekPoint, SeekPoint> getSeekPoints(long timeMicros, int trackIndex) {
             return getSeekPoints(timeMicros);
