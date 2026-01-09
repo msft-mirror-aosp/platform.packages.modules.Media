@@ -35,6 +35,11 @@ java_library {
         enabled: true,
         shrink: true,
         proguard_flags_files: ["updatable-media-proguard.flags"],
+        proguard_compatibility: select(release_flag("RELEASE_MEDIA3_MIGRATION_FOR_MEDIAPARSER"), {
+            true: false,
+            default: true,
+        }),
+        ignore_warnings: false,
     },
 
     installable: true,
