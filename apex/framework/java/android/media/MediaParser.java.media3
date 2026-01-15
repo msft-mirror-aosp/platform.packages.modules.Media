@@ -45,6 +45,7 @@ import androidx.media3.extractor.ExtractorInput;
 import androidx.media3.extractor.ExtractorOutput;
 import androidx.media3.extractor.PositionHolder;
 import androidx.media3.extractor.SeekMap.SeekPoints;
+import androidx.media3.extractor.TrackAwareSeekMap;
 import androidx.media3.extractor.TrackOutput;
 import androidx.media3.extractor.amr.AmrExtractor;
 import androidx.media3.extractor.flac.FlacExtractor;
@@ -222,12 +223,15 @@ public final class MediaParser {
          *
          * @hide
          */
-        public static final SeekMap DUMMY = new SeekMap(new DummyExoPlayerSeekMap());
+        public static final SeekMap DUMMY =
+                new SeekMap(new DummyExoPlayerSeekMap(), /* trackIds= */ new int[0]);
 
         private final androidx.media3.extractor.SeekMap mExoPlayerSeekMap;
+        private final int[] mTrackIds;
 
-        private SeekMap(androidx.media3.extractor.SeekMap exoplayerSeekMap) {
+        private SeekMap(androidx.media3.extractor.SeekMap exoplayerSeekMap, int[] trackIds) {
             mExoPlayerSeekMap = exoplayerSeekMap;
+            mTrackIds = trackIds;
         }
 
         /** Returns whether seeking is supported. */
@@ -252,7 +256,11 @@ public final class MediaParser {
          */
         @FlaggedApi(Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
         public boolean trackHasSeekPoints(int trackIndex) {
-            return false;
+            if (trackIndex < 0 || trackIndex >= mTrackIds.length) {
+                throw new IllegalArgumentException("Invalid trackIndex: " + trackIndex);
+            }
+            return (mExoPlayerSeekMap instanceof TrackAwareSeekMap)
+                    && ((TrackAwareSeekMap) mExoPlayerSeekMap).isSeekable(mTrackIds[trackIndex]);
         }
 
         /**
@@ -303,7 +311,17 @@ public final class MediaParser {
         @FlaggedApi(Flags.FLAG_MEDIAPARSER_TRACK_AWARE_SEEKING)
         @NonNull
         public Pair<SeekPoint, SeekPoint> getSeekPoints(long timeMicros, int trackIndex) {
-            return getSeekPoints(timeMicros);
+            if (trackIndex < 0 || trackIndex >= mTrackIds.length) {
+                throw new IllegalArgumentException("Invalid trackIndex: " + trackIndex);
+            }
+            if (mExoPlayerSeekMap instanceof TrackAwareSeekMap) {
+                TrackAwareSeekMap trackAwareSeekMap = (TrackAwareSeekMap) mExoPlayerSeekMap;
+                SeekPoints seekPoints =
+                    trackAwareSeekMap.getSeekPoints(timeMicros, mTrackIds[trackIndex]);
+                return new Pair<>(toSeekPoint(seekPoints.first), toSeekPoint(seekPoints.second));
+            } else {
+                return getSeekPoints(timeMicros);
+            }
         }
     }
 
@@ -1666,10 +1684,12 @@ public final class MediaParser {
     private final class ExtractorOutputAdapter implements ExtractorOutput {
 
         private final SparseArray<TrackOutput> mTrackOutputAdapters;
+        private final List<Integer> mTrackIds;
         private boolean mTracksEnded;
 
         private ExtractorOutputAdapter() {
             mTrackOutputAdapters = new SparseArray<>();
+            mTrackIds = new ArrayList<>();
         }
 
         @Override
@@ -1679,6 +1699,7 @@ public final class MediaParser {
                 int trackIndex = mTrackOutputAdapters.size();
                 trackOutput = new TrackOutputAdapter(trackIndex);
                 mTrackOutputAdapters.put(id, trackOutput);
+                mTrackIds.add(id);
                 if (mEagerlyExposeTrackType) {
                     MediaFormat mediaFormat = new MediaFormat();
                     mediaFormat.setString("track-type-string", toTypeString(type));
@@ -1713,7 +1734,11 @@ public final class MediaParser {
                 mOutputConsumer.onTrackDataFound(
                         /* trackIndex= */ 0, new TrackData(mediaFormat, /* drmInitData= */ null));
             }
-            mOutputConsumer.onSeekMapFound(new SeekMap(exoplayerSeekMap));
+            int[] trackIdsArray = new int[mTrackIds.size()];
+            for (int i = 0; i < trackIdsArray.length; i++) {
+                trackIdsArray[i] = mTrackIds.get(i);
+            }
+            mOutputConsumer.onSeekMapFound(new SeekMap(exoplayerSeekMap, trackIdsArray));
         }
     }
 
