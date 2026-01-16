@@ -25,3 +25,11 @@ flag {
     bug: "449951865"
     is_exported: true
 }
+
+flag {
+    name: "deprecate_mediaparser_sample_flag_decode_only"
+    namespace: "media_solutions"
+    description: "Deprecate the MediaParser.SAMPLE_FLAG_DECODE_ONLY constant."
+    bug: "467326504"
+    is_exported: true
+}

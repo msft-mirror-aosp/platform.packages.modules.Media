@@ -557,7 +557,13 @@ public final class MediaParser {
     public static final int SAMPLE_FLAG_LAST_SAMPLE = 1 << 29;
     /** Indicates that the sample is (at least partially) encrypted. */
     public static final int SAMPLE_FLAG_ENCRYPTED = 1 << 30;
-    /** Indicates that the sample should be decoded but not rendered. */
+    /**
+     * Indicates that the sample should be decoded but not rendered.
+     *
+     * @deprecated This flag is no longer supported and will be ignored.
+     */
+    @Deprecated
+    @FlaggedApi(Flags.FLAG_DEPRECATE_MEDIAPARSER_SAMPLE_FLAG_DECODE_ONLY)
     public static final int SAMPLE_FLAG_DECODE_ONLY = 1 << 31;
 
     // Parser implementation names.
