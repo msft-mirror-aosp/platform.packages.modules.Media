@@ -1767,6 +1767,9 @@ public final class MediaParser {
         private boolean mHasSubsampleEncryptionData;
         private int mSkippedSupplementalDataBytes;
 
+        private long mDurationUs;
+        private Format mFormat;
+
         private TrackOutputAdapter(int trackIndex) {
             mTrackIndex = trackIndex;
             mScratchIvSpace = new byte[16]; // Size documented in CryptoInfo.
@@ -1775,15 +1778,34 @@ public final class MediaParser {
             mEncryptionDataReadState = STATE_READING_SIGNAL_BYTE;
             mLastOutputEncryptionPattern =
                     new CryptoInfo.Pattern(/* blocksToEncrypt= */ 0, /* blocksToSkip= */ 0);
+            mDurationUs = C.TIME_UNSET;
         }
 
         @Override
         public void format(Format format) {
-            mTrackFormats.put(mTrackIndex, format);
+            mFormat = format;
+            emitTrackData();
+        }
+
+        @Override
+        public void durationUs(long durationUs) {
+            mDurationUs = durationUs;
+            if (Flags.mediaparserEmitTrackDuration() && mFormat != null) {
+                // Re-emit if format was already reported to include the newly found duration.
+                emitTrackData();
+            }
+        }
+
+        private void emitTrackData() {
+            mTrackFormats.put(mTrackIndex, mFormat);
+            MediaFormat mediaFormat = toMediaFormat(mFormat);
+            if (Flags.mediaparserEmitTrackDuration() && mDurationUs != C.TIME_UNSET) {
+                mediaFormat.setLong(MediaFormat.KEY_DURATION, mDurationUs);
+            }
             mOutputConsumer.onTrackDataFound(
                     mTrackIndex,
                     new TrackData(
-                            toMediaFormat(format), toFrameworkDrmInitData(format.drmInitData)));
+                            mediaFormat, toFrameworkDrmInitData(mFormat.drmInitData)));
         }
 
         @Override

@@ -33,3 +33,10 @@ flag {
     bug: "467326504"
     is_exported: true
 }
+
+flag {
+    name: "mediaparser_emit_track_duration"
+    namespace: "media_solutions"
+    description: "When enabled, MediaParser emits the track duration in the MediaFormat during onTrackDataFound."
+    bug: "449951865"
+}
