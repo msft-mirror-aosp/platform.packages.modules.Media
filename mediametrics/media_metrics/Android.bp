@@ -1,0 +1,52 @@
+package {
+    // See: http://go/android-license-faq
+    default_applicable_licenses: ["Android-Apache-2.0"],
+
+}
+
+filegroup {
+    name: "framework-media-metrics-sources-aidl",
+    srcs: [
+        "aidl/**/*.aidl",
+    ],
+    path: "aidl",
+}
+
+// Internal interface between Java APIs and the media_metrics service.
+// Since it crosses framework/module boundaries, it must be stabilized.
+aidl_interface {
+    name: "media_metrics_aidl_interface",
+
+    srcs: [
+        ":framework-media-metrics-sources-aidl",
+    ],
+    local_include_dir: "aidl",
+    include_dirs: [
+        "frameworks/base/core/java", // for android.os.Bundle
+        "frameworks/native/aidl/binder", // for android.os.PersistableBundle
+    ],
+    backend: {
+        java: {
+            enabled: true,
+        },
+        cpp: {
+            // additional_shared_libraries: ["libmedia_metrics_include"],
+            enabled: false,
+        },
+        ndk: {
+            enabled: true,
+            min_sdk_version: "31",
+            apex_available: [
+                // NOT for platform use "//apex_available:platform",
+                "com.android.media",
+                "com.android.media.swcodec",
+            ],
+        },
+        rust: {
+            enabled: false,
+        },
+    },
+
+    unstable: false,
+    frozen: false,
+}
