@@ -56,34 +56,11 @@ aconfig_declarations {
 }
 
 java_aconfig_library {
-    name: "com.android.media.metrics.flags-container-aconfig-java",
+    name: "com.android.media.metrics.flags-aconfig-java",
     defaults: ["framework-minus-apex-aconfig-java-defaults"],
     aconfig_declarations: "media_metrics_aconfig_flags",
-    visibility: [
-        "//packages/modules/Media:__subpackages__",
-        "//frameworks/base",
-        "//frameworks/base:__subpackages__",
-    ],
     apex_available: [
         "//apex_available:platform",
         "com.android.media",
     ],
-    min_sdk_version: "35",
-}
-
-java_aconfig_library {
-    name: "com.android.media.metrics.flags-client-aconfig-java",
-    defaults: ["framework-minus-apex-aconfig-java-defaults"],
-    aconfig_declarations: "media_metrics_aconfig_flags",
-    mode: "exported",
-    visibility: [
-        "//packages/modules/Media:__subpackages__",
-        "//frameworks/base",
-        "//frameworks/base:__subpackages__",
-    ],
-    apex_available: [
-        "//apex_available:platform",
-        "com.android.media",
-    ],
-    min_sdk_version: "35",
 }
