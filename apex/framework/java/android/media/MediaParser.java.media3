@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// LINT.IfChange
 package android.media;
 
 import android.annotation.CheckResult;
@@ -2395,3 +2396,4 @@ public final class MediaParser {
         EXPECTED_TYPE_BY_PARAMETER_NAME = Collections.unmodifiableMap(expectedTypeByParameterName);
     }
 }
+// LINT.ThenChange(MediaParser.java)
