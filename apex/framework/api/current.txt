@@ -1,16 +1,15 @@
 // Signature format: 6.0
 // - style=java
-// - strip-java-lang-prefix=legacy
 // - type-argument-spacing=legacy
 package android.media {
 
   public final class ApplicationMediaCapabilities implements android.os.Parcelable {
     method @NonNull public static android.media.ApplicationMediaCapabilities createFromXml(@NonNull org.xmlpull.v1.XmlPullParser);
     method public int describeContents();
-    method @NonNull public java.util.List<java.lang.String> getSupportedHdrTypes();
-    method @NonNull public java.util.List<java.lang.String> getSupportedVideoMimeTypes();
-    method @NonNull public java.util.List<java.lang.String> getUnsupportedHdrTypes();
-    method @NonNull public java.util.List<java.lang.String> getUnsupportedVideoMimeTypes();
+    method @NonNull public java.util.List<String> getSupportedHdrTypes();
+    method @NonNull public java.util.List<String> getSupportedVideoMimeTypes();
+    method @NonNull public java.util.List<String> getUnsupportedHdrTypes();
+    method @NonNull public java.util.List<String> getUnsupportedVideoMimeTypes();
     method public boolean isFormatSpecified(@NonNull String);
     method public boolean isHdrTypeSupported(@NonNull String);
     method public boolean isVideoMimeTypeSupported(@NonNull String);
@@ -32,7 +31,7 @@ package android.media {
     method @Deprecated @IntRange(from=1) public int getVersion();
   }
 
-  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaController2 implements java.lang.AutoCloseable {
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaController2 implements AutoCloseable {
     method @Deprecated public void cancelSessionCommand(@NonNull Object);
     method @Deprecated public void close();
     method @Deprecated @Nullable public android.media.Session2Token getConnectedToken();
@@ -69,11 +68,11 @@ package android.media {
 
   public final class MediaParser {
     method public boolean advance(@NonNull android.media.MediaParser.SeekableInputReader) throws java.io.IOException;
-    method @NonNull public static android.media.MediaParser create(@NonNull android.media.MediaParser.OutputConsumer, @NonNull java.lang.String...);
+    method @NonNull public static android.media.MediaParser create(@NonNull android.media.MediaParser.OutputConsumer, @NonNull String...);
     method @NonNull public static android.media.MediaParser createByName(@NonNull String, @NonNull android.media.MediaParser.OutputConsumer);
     method @NonNull public android.media.metrics.LogSessionId getLogSessionId();
     method @NonNull public String getParserName();
-    method @NonNull public static java.util.List<java.lang.String> getParserNames(@NonNull android.media.MediaFormat);
+    method @NonNull public static java.util.List<String> getParserNames(@NonNull android.media.MediaFormat);
     method public void release();
     method public void seek(@NonNull android.media.MediaParser.SeekPoint);
     method public void setLogSessionId(@NonNull android.media.metrics.LogSessionId);
@@ -162,7 +161,7 @@ package android.media {
   public static final class MediaParser.UnrecognizedInputFormatException extends java.io.IOException {
   }
 
-  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaSession2 implements java.lang.AutoCloseable {
+  @Deprecated @FlaggedApi("com.android.media.mainline.flags.deprecate_mainline_mediasession2_apis") public class MediaSession2 implements AutoCloseable {
     method @Deprecated public void broadcastSessionCommand(@NonNull android.media.Session2Command, @Nullable android.os.Bundle);
     method @Deprecated public void cancelSessionCommand(@NonNull android.media.MediaSession2.ControllerInfo, @NonNull Object);
     method @Deprecated public void close();

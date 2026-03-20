@@ -1,6 +1,5 @@
 // Signature format: 6.0
 // - style=java
-// - strip-java-lang-prefix=legacy
 package android.media {
 
   public final class MediaTranscodingManager {
@@ -30,7 +29,7 @@ package android.media {
     method public boolean addClientUid(int);
     method public void cancel();
     method public void clearOnProgressUpdateListener();
-    method @NonNull public java.util.List<java.lang.Integer> getClientUids();
+    method @NonNull public java.util.List<Integer> getClientUids();
     method public int getErrorCode();
     method @IntRange(from=0, to=100) public int getProgress();
     method public int getResult();
